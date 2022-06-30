@@ -1,16 +1,33 @@
 package com.minimercado.prueba;
 
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
+@Entity
 public class Transaccion {
 	
+	@Temporal(TemporalType.DATE)
 	private Date fecha;					// fecha de la venta
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Number numero;				// unico en el sistema (identifica la transaccion)
-	private Map<Number, Linea> lineas;	// mapa de codigo de Producto a Linea 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Linea> lineas;			// Lista de Lineas 
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Producto producto;
 
-	public Transaccion(Date fecha, Number numero, Map<Number, Linea> lineas, Producto producto) {
+	public Transaccion(Date fecha, Number numero, List<Linea> lineas, Producto producto) {
 		this.fecha = fecha;
 		this.numero = numero;
 		this.lineas = lineas;
@@ -33,11 +50,11 @@ public class Transaccion {
 		this.numero = numero;
 	}
 
-	public Map<Number, Linea> getLineas() {
+	public List<Linea> getLineas() {
 		return lineas;
 	}
 
-	public void setLineas(Map<Number, Linea> lineas) {
+	public void setLineas(List<Linea> lineas) {
 		this.lineas = lineas;
 	}
 

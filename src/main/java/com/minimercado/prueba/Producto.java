@@ -1,7 +1,12 @@
 package com.minimercado.prueba;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Producto {
 	
+	@Id
 	private Number codigo;
 	private String descripcion;
 	private Number precioUnitario;

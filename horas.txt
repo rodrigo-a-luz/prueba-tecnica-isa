@@ -1,1 +1,2 @@
 28/6: 1 hora - creando el proyecto y las clases del dominio
+29/6: 2 horas - investigando y configurando base de datos
