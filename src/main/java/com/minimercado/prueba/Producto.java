@@ -1,27 +1,43 @@
 package com.minimercado.prueba;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "producto")
 public class Producto {
 	
 	@Id
-	private Number codigo;
-	private String descripcion;
-	private Number precioUnitario;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int codigo;
 
-	public Producto(Number codigo, String descripcion, Number precioUnitario) {
+	@Column(name = "descripcion")
+	private String descripcion;
+
+	@Column(name = "precio_unitario")
+	private float precioUnitario;
+
+	public Producto() {
+		this.codigo = 0;
+		this.descripcion = "";
+		this.precioUnitario = 0;
+	}
+
+	public Producto(int codigo, String descripcion, float precioUnitario) {
 		this.codigo = codigo;
 		this.descripcion = descripcion;
 		this.precioUnitario = precioUnitario;
 	}
 
-	public Number getCodigo() {
+	public int getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(Number codigo) {
+	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
 
@@ -33,11 +49,11 @@ public class Producto {
 		this.descripcion = descripcion;
 	}
 
-	public Number getPrecioUnitario() {
+	public float getPrecioUnitario() {
 		return precioUnitario;
 	}
 	
-	public void setPrecioUnitario(Number precioUnitario) {
+	public void setPrecioUnitario(float precioUnitario) {
 		this.precioUnitario = precioUnitario;
 	}
 
