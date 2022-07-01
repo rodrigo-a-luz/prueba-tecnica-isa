@@ -48,6 +48,13 @@ public class Transaccion {
 		this.producto = producto;
 	}
 
+	public Transaccion(Date fecha, List<Linea> lineas, Producto producto) {
+		this.fecha = fecha;
+		this.numero = 0;
+		this.lineas = lineas;
+		this.producto = producto;
+	}
+
 	public Date getFecha() {
 		return fecha;
 	}
