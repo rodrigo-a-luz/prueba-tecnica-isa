@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmins:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>Minimercado</title>
+	</head>
+
+	<body>
+		<h1>Gracias por comprar en el Minimercado!</h1>
+		<p><b>Codigo:</b> <span th:text="${param.codigo != null ? param.codigo : 'no_code'}">codigo</span></p>
+	</body>
+
+</html>

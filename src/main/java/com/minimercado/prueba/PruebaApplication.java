@@ -3,8 +3,13 @@ package com.minimercado.prueba;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @SpringBootApplication
 @Controller
@@ -14,16 +19,21 @@ public class PruebaApplication {
 		SpringApplication.run(PruebaApplication.class, args);
 	}
 
-	@GetMapping("/home")
-	public String getHome() {
+	@RequestMapping(value = "/home")
+	public String home() {
 
 		
 
-		return "home.html";
+		return "homepage.html";
 	}
 
-	@GetMapping("/comprar")
-	public String comprar(@RequestParam(value = "p", defaultValue = "0") int producto_codigo) {
+	@RequestMapping(value = "/comprar")
+	public String getComprar(
+		HttpServletRequest request,
+		HttpServletResponse response,
+		@RequestParam(value = "codigo", defaultValue = "0") String codigo
+		// Model model
+	) {
 
 		// if (producto_codigo != 0) {
 		// 	try {
@@ -35,7 +45,12 @@ public class PruebaApplication {
 
 		// }
 
-		return "comprar.html";
+		// System.out.println("CODIGO: " + (request.getParameter("codigo") != null ? request.getParameter("codigo") : "NO_CODE"));
+
+		// request.setAttribute("codigo", codigo);
+		// model.addAttribute("codigo", codigo);
+
+		return "comprarpage";
 	}
 
 }
