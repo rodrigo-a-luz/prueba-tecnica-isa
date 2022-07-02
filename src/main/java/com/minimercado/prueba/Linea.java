@@ -48,6 +48,14 @@ public class Linea {
 		this.id = producto.getCodigo();
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Producto getProducto() {
 		return producto;
 	}
@@ -70,6 +78,12 @@ public class Linea {
 
 	public void setPrecioTotal(float precioTotal) {
 		this.precioTotal = precioTotal;
+	}
+
+	@Override
+	public String toString() {
+		return "Linea [cantidad=" + cantidad + ", id=" + id + ", precioTotal=" + precioTotal + ", producto=" + producto.getCodigo()
+				+ "]";
 	}
 
 }

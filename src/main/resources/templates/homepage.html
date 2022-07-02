@@ -6,5 +6,37 @@
 	<body>
 		<h1>Bienvenido al Minimercado!</h1>
 		<a href="comprar?codigo=hola"><button>COMPRAR</button></a>
+		<br>
+		<h2>TRANSACCIONES</h2>
+		<table>
+			<tr>
+				<th>NUMERO</th>
+				<th>FECHA</th>
+				<th>LINEAS</th>
+			</tr>
+			<tr th:each="transaccion : ${transacciones}">
+				<td th:text="${transaccion.numero}"></td>
+				<td th:text="${transaccion.fecha}"></td>
+				<td>
+					<ol th:each="linea : ${transaccion.getLineas()}">
+						<li th:text="'id: ' + ${linea.id} + ', Producto: ' + ${linea.producto.codigo} + ', Cantidad: ' + ${linea.getCantidad()} + ', PrecioTotal: ' + ${linea.getPrecioTotal()}"></li>
+					</ol>
+				</td>
+			</tr>
+		</table>
+		<br>
+		<h2>CATÁLOGO</h2>
+		<table>
+			<tr>
+				<th>CODIGO</th>
+				<th>DESCRIPCION</th>
+				<th>PRECIO UNITARIO</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
 	</body>
 </html>

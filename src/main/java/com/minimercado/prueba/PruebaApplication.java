@@ -1,12 +1,15 @@
 package com.minimercado.prueba;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.minimercado.prueba.services.TransaccionService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,20 +18,46 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 public class PruebaApplication {
 
+	@Autowired
+	private TransaccionService transaccionService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(PruebaApplication.class, args);
 	}
 
 	@RequestMapping(value = "/home")
-	public String home() {
+	public String home(
+		HttpServletRequest request,
+		HttpServletResponse response
+	) {
 
-		
+		List<Transaccion> transacciones = transaccionService.fetchTransaccionList();
 
-		return "homepage.html";
+		if (transacciones != null) {
+			for (int i = 0; i < transacciones.size(); i++) {
+				Transaccion transaccion = transacciones.get(i);
+				System.out.println(transaccion.toString());
+				List<Linea> lineas = transaccion.getLineas();
+				if (lineas != null) {
+					for (int j = 0; j < lineas.size(); j++) {
+						Linea linea = lineas.get(j);
+						System.out.println(linea.toString());
+					}
+				} else {
+					System.out.println("Transaccion sin lineas");
+				}
+			}
+		} else {
+			System.out.println("transacciones es NULL");
+		}
+
+		request.setAttribute("transacciones", transacciones);
+
+		return "homepage";
 	}
 
 	@RequestMapping(value = "/comprar")
-	public String getComprar(
+	public String comprar(
 		HttpServletRequest request,
 		HttpServletResponse response,
 		@RequestParam(value = "codigo", defaultValue = "0") String codigo

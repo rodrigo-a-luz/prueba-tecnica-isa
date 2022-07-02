@@ -87,4 +87,9 @@ public class Transaccion {
 		this.producto = producto;
 	}
 
+	@Override
+	public String toString() {
+		return "Transaccion [fecha=" + fecha + ", numero=" + numero + "]";
+	}
+
 }
