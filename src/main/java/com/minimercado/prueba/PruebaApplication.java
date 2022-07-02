@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.minimercado.prueba.services.StockService;
 import com.minimercado.prueba.services.TransaccionService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,9 @@ public class PruebaApplication {
 	@Autowired
 	private TransaccionService transaccionService;
 
+	@Autowired
+	private StockService stockService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(PruebaApplication.class, args);
 	}
@@ -31,27 +35,40 @@ public class PruebaApplication {
 		HttpServletResponse response
 	) {
 
-		List<Transaccion> transacciones = transaccionService.fetchTransaccionList();
+		// List<Transaccion> transacciones = transaccionService.fetchTransaccionList();
 
-		if (transacciones != null) {
-			for (int i = 0; i < transacciones.size(); i++) {
-				Transaccion transaccion = transacciones.get(i);
-				System.out.println(transaccion.toString());
-				List<Linea> lineas = transaccion.getLineas();
-				if (lineas != null) {
-					for (int j = 0; j < lineas.size(); j++) {
-						Linea linea = lineas.get(j);
-						System.out.println(linea.toString());
-					}
-				} else {
-					System.out.println("Transaccion sin lineas");
-				}
+		// if (transacciones != null) {
+		// 	for (int i = 0; i < transacciones.size(); i++) {
+		// 		Transaccion transaccion = transacciones.get(i);
+		// 		System.out.println(transaccion.toString());
+		// 		List<Linea> lineas = transaccion.getLineas();
+		// 		if (lineas != null) {
+		// 			for (int j = 0; j < lineas.size(); j++) {
+		// 				Linea linea = lineas.get(j);
+		// 				System.out.println(linea.toString());
+		// 			}
+		// 		} else {
+		// 			System.out.println("Transaccion sin lineas");
+		// 		}
+		// 	}
+		// } else {
+		// 	System.out.println("transacciones es NULL");
+		// }
+
+		// request.setAttribute("transacciones", transacciones);
+
+		List<Stock> stockList = stockService.fetchStockList();
+
+		if (stockList != null) {
+			for (int i = 0; i < stockList.size(); i++) {
+				Stock stock = stockList.get(i);
+				System.out.println(stock.toString());
 			}
 		} else {
 			System.out.println("transacciones es NULL");
 		}
 
-		request.setAttribute("transacciones", transacciones);
+		request.setAttribute("stockList", stockList);
 
 		return "homepage";
 	}

@@ -16,7 +16,6 @@ public class Stock {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "stock_id")
 	private int id;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -28,6 +27,19 @@ public class Stock {
 	public Stock(Producto producto, int cantidad) {
 		this.producto = producto;
 		this.cantidad = cantidad;
+	}
+
+	public Stock() {
+		this.producto = null;
+		this.cantidad = 0;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Producto getProducto() {
@@ -44,6 +56,11 @@ public class Stock {
 
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	@Override
+	public String toString() {
+		return "Stock [id=" + id + ", producto=" + producto.getCodigo() + ", desc=" + producto.getDescripcion() + ", cantidad=" + cantidad + "]";
 	}
 
 }

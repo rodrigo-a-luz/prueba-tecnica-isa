@@ -7,7 +7,9 @@
 		<h1>Bienvenido al Minimercado!</h1>
 		<a href="comprar?codigo=hola"><button>COMPRAR</button></a>
 		<br>
-		<h2>TRANSACCIONES</h2>
+
+		<!-- TABLA DE TRANSACCIONES -->
+		<!-- <h2>TRANSACCIONES</h2>
 		<table>
 			<tr>
 				<th>NUMERO</th>
@@ -24,18 +26,20 @@
 				</td>
 			</tr>
 		</table>
-		<br>
+		<br> -->
+
+		<!-- TABLA DE CATALOGO -->
 		<h2>CATÁLOGO</h2>
 		<table>
 			<tr>
 				<th>CODIGO</th>
-				<th>DESCRIPCION</th>
-				<th>PRECIO UNITARIO</th>
+				<th>PRODUCTO</th>
+				<th>CANTIDAD</th>
 			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
+			<tr th:each="stock : ${stockList}">
+				<td th:text="${stock.id}"></td>
+				<td th:text="${stock.producto.codigo}"></td>
+				<td th:text="${stock.cantidad}"></td>
 			</tr>
 		</table>
 	</body>
