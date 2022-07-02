@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -59,14 +61,14 @@ public class PruebaApplication {
 
 		List<Stock> stockList = stockService.fetchStockList();
 
-		if (stockList != null) {
-			for (int i = 0; i < stockList.size(); i++) {
-				Stock stock = stockList.get(i);
-				System.out.println(stock.toString());
-			}
-		} else {
-			System.out.println("transacciones es NULL");
-		}
+		// if (stockList != null) {
+		// 	for (int i = 0; i < stockList.size(); i++) {
+		// 		Stock stock = stockList.get(i);
+		// 		System.out.println(stock.toString());
+		// 	}
+		// } else {
+		// 	System.out.println("stockList es NULL");
+		// }
 
 		request.setAttribute("stockList", stockList);
 
@@ -75,26 +77,19 @@ public class PruebaApplication {
 
 	@RequestMapping(value = "/comprar")
 	public String comprar(
-		HttpServletRequest request,
-		HttpServletResponse response,
-		@RequestParam(value = "codigo", defaultValue = "0") String codigo
-		// Model model
+		@ModelAttribute Carrito carrito,
+		Model model
 	) {
 
-		// if (producto_codigo != 0) {
-		// 	try {
-		// 		Transaccion transaccion = new Transaccion();
-		// 	} catch (Exception e) {
-		// 		//
-		// 	}
-		// } else {
+		// proceso la compra
 
-		// }
-
-		// System.out.println("CODIGO: " + (request.getParameter("codigo") != null ? request.getParameter("codigo") : "NO_CODE"));
-
-		// request.setAttribute("codigo", codigo);
-		// model.addAttribute("codigo", codigo);
+		if (carrito != null && carrito.getListaCompra() != null) {
+			List<ItemCarrito> listaItems = carrito.getListaCompra();
+			for (int i = 0; i < listaItems.size(); i++) {
+				ItemCarrito item = listaItems.get(i);
+				System.out.println(item.toString());
+			};
+		};
 
 		return "comprarpage";
 	}

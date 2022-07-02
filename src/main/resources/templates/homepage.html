@@ -2,6 +2,41 @@
 <html>
 	<head>
 		<title>Minimercado</title>
+
+		<script th:inline="javascript">
+			var carritoArray = [];
+			const cantidadesArray = [];
+
+			var agregarProducto = function(producto) {
+				carritoArray[carritoArray.length] = producto;
+
+				console.log("Carrito[agrego]: " + carritoArray);
+			};
+
+			var quitarProducto = function(producto) {
+				var indexProducto = carritoArray.findIndex((value, index) => {
+					return value == producto;
+				});
+
+				if (indexProducto != -1) {
+					// si el producto esta en el carrito se elimina
+					carritoArray.splice(indexProducto, 1);
+				}
+
+				console.log("Carrito[quito]: " + carritoArray);
+
+			};
+
+			var checkboxChanged = function(checkboxProducto, producto) {
+				console.log("Producto " + producto + " changed");
+
+				if (checkboxProducto.checked) {
+					agregarProducto(producto);
+				} else {
+					quitarProducto(producto);
+				}
+			};
+		</script>
 	</head>
 	<body>
 		<h1>Bienvenido al Minimercado!</h1>
@@ -30,16 +65,42 @@
 
 		<!-- TABLA DE CATALOGO -->
 		<h2>CATÁLOGO</h2>
+		<form action="#" method="post">
+			<table>
+				<thead>
+					<tr>
+						<th>PRODUCTO</th>
+						<th>DESCRIPCION</th>
+						<th>PRECIO UNITARIO</th>
+						<th># EN STOCK</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="stock, itemStat : ${stockList}">
+						<td th:text="${stock.producto.codigo}"></td>
+						<td th:text="${stock.producto.descripcion}"></td>
+						<td th:text="${stock.producto.precioUnitario}"></td>
+						<td th:text="${stock.cantidad}"></td>
+						<td>
+							<input type="checkbox" name="productosSeleccionados" id="checked" th:data-codigo="${stock.producto.codigo}" th:onchange="checkboxChanged(this, this.getAttribute('data-codigo'))">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		<br>
+
+		<!-- CARRITO DE COMPRAS -->
 		<table>
 			<tr>
-				<th>CODIGO</th>
 				<th>PRODUCTO</th>
+				<th>DESCRIPCION</th>
+				<th>PRECIO UNITARIO</th>
 				<th>CANTIDAD</th>
+				<th>SUBTOTAL</th>
 			</tr>
-			<tr th:each="stock : ${stockList}">
-				<td th:text="${stock.id}"></td>
-				<td th:text="${stock.producto.codigo}"></td>
-				<td th:text="${stock.cantidad}"></td>
+			<tr>
+
 			</tr>
 		</table>
 	</body>
