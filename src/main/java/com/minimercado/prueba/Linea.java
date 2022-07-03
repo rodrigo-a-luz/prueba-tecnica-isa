@@ -18,7 +18,7 @@ public class Linea {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private Producto producto;
 
 	@Column(name = "cantidad")
@@ -45,7 +45,7 @@ public class Linea {
 		this.producto = producto;
 		this.cantidad = cantidad;
 		this.precioTotal = producto.getPrecioUnitario() * cantidad;
-		this.id = producto.getCodigo();
+		this.id = 0;
 	}
 
 	public int getId() {

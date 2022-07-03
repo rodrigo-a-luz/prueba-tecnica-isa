@@ -18,7 +18,7 @@ public class Stock {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private Producto producto;
 
 	@Column(name = "cantidad")

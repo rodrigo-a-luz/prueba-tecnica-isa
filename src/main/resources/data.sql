@@ -63,14 +63,14 @@ VALUES
 -- VALUES
 -- 	('Producto diez', 10.5);
 
-INSERT INTO linea (producto_codigo, cantidad, precio_total) VALUES
-(
-	1,
-	2,
-	(select precio_unitario from producto
-	where codigo = 1) * 2
-);
+-- INSERT INTO linea (producto_codigo, cantidad, precio_total) VALUES
+-- (
+-- 	1,
+-- 	2,
+-- 	(select precio_unitario from producto
+-- 	where codigo = 1) * 2
+-- );
 
-INSERT INTO transaccion (fecha, numero, producto_codigo) values ('2022-06-30', 1, 1);
+-- INSERT INTO transaccion (fecha, numero, producto_codigo) values ('2022-06-30', 1, 1);
 
-INSERT INTO transaccion_lineas (transaccion_numero, lineas_id) VALUES (1, 1);
+-- INSERT INTO transaccion_lineas (transaccion_numero, lineas_id) VALUES (1, 1);

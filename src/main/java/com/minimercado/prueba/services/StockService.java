@@ -11,7 +11,7 @@ public interface StockService {
 
 	// Read operation
 	List<Stock> fetchStockList();
-
+	
 	// Delete operation
 	void deleteStockById(Long stockId);
 

@@ -2,4 +2,4 @@
 29/6: 2 horas - investigando y configurando base de datos
 30/6: 4 horas - configurando base de datos y haciendo scripts
 1/7: 1 hora - implementando interfaces con BD
-1/7: 4 horas - implementando la transaccion
+1/7: 4 horas - implementando la transaccion (tablas en view)

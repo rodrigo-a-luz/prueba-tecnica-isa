@@ -24,6 +24,10 @@ public class StockServiceImpl implements StockService {
 		return (List<Stock>) stockRepository.findAll();
 	}
 
+	// @Modifying
+	// @Query("UPDATE stock SET cantidad = cantidad - ?2 WHERE producto_codigo = ?1")
+	// public void updateStockByProductId(int productId, int cantidadComprada) {};
+
 	@Override
 	public void deleteStockById(Long StockId) {
 		stockRepository.deleteById(StockId);

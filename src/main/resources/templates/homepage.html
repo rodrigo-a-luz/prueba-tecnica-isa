@@ -3,9 +3,132 @@
 	<head>
 		<title>Minimercado</title>
 
+		<style>
+			div {
+				display: inline-block;
+			}
+
+			div.alerta {
+				display: flex;
+				background-color: greenyellow;
+				font-weight: bold;
+				height: max-content;
+				padding: none;
+				text-align: center;
+				align-items: center;
+				justify-content: center;
+			}
+
+			p {
+				display: inline-block;
+				margin: none;
+			}
+
+			button {
+				display: inline-block;
+				margin: none;
+			}
+
+			table {
+				table-layout: auto;
+				width: max-content;
+			}
+
+			td, th {
+				padding-left: 5px;
+			}
+		</style>
+
 		<script th:inline="javascript">
 			var carritoArray = [];
 			const cantidadesArray = [];
+
+			var rowTemplate = function(producto, descripcion, precioUnitario, stock) {
+				var row = document.createElement('tr');
+				row.setAttribute("id", "item-carrito-" + producto);
+
+				var td1 = document.createElement('td');
+				td1.setAttribute("name", "producto");
+				var hiddenInput1 = document.createElement('input');
+				hiddenInput1.hidden = true;
+				hiddenInput1.setAttribute("type", "text");
+				hiddenInput1.setAttribute("name", "producto");
+				hiddenInput1.setAttribute("id", "input-producto-" + producto);
+				hiddenInput1.setAttribute("value", producto);
+				var div1 = document.createElement('div');
+				div1.setAttribute("name", "producto");
+				div1.innerText = producto;
+				td1.appendChild(div1);
+				td1.appendChild(hiddenInput1);
+
+				row.appendChild(td1);
+
+				var td2 = document.createElement('td');
+				td2.setAttribute("name", "descripcion");
+				// var hiddenInput2 = document.createElement('input');
+				// hiddenInput2.hidden = true;
+				// hiddenInput2.setAttribute("type", "text");
+				// hiddenInput2.setAttribute("name", "descripcion");
+				// hiddenInput2.setAttribute("value", descripcion);
+				var div2 = document.createElement('div');
+				div2.setAttribute("name", "descripcion");
+				div2.innerText = descripcion;
+				td2.appendChild(div2);
+				// td2.appendChild(hiddenInput2);
+
+				row.appendChild(td2);
+
+				// el precio unitario se obtiene de la base de datos al procesar la transaccion
+				var td3 = document.createElement('td');
+				td3.setAttribute("name", "precio-unitario");
+				// var hiddenInput3 = document.createElement('input');
+				// hiddenInput3.hidden = true;
+				// hiddenInput3.setAttribute("type", "text");
+				// hiddenInput3.setAttribute("name", "precio-unitario");
+				// hiddenInput3.setAttribute("id", "input-precio-unitario-" + producto);
+				// hiddenInput3.setAttribute("value", precioUnitario);
+				var div3 = document.createElement('div');
+				div3.setAttribute("name", "precio-unitario");
+				div3.innerText = precioUnitario;
+				td3.appendChild(div3);
+				// td1.appendChild(hiddenInput3);
+
+				row.appendChild(td3);
+
+				var td4 = document.createElement('td');
+				td4.setAttribute("name", "cantidad");
+				var input4 = document.createElement('input');
+				input4.setAttribute("type", "number");
+				input4.setAttribute("name", "cantidad");
+				input4.setAttribute("id", "input-cantidad-" + producto);
+				input4.setAttribute("min", "1");
+				input4.setAttribute("max", stock);
+				input4.setAttribute("value", "1");
+				input4.setAttribute("step", "1");
+				input4.setAttribute("onchange", "return numberInputChanged(this);");
+				td4.appendChild(input4);
+
+				row.appendChild(td4);
+
+				// el subtotal se calcula internamente con el precio unitario y la cantidad
+				var td5 = document.createElement('td');
+				td5.setAttribute("name", "subtotal");
+				// var hiddenInput5 = document.createElement('input');
+				// hiddenInput5.hidden = true;
+				// hiddenInput5.setAttribute("type", "text");
+				// hiddenInput5.setAttribute("name", "subtotal");
+				// hiddenInput5.setAttribute("id", "input-subtotal-" + producto);
+				// hiddenInput5.setAttribute("value", precioUnitario);
+				var div5 = document.createElement('div');
+				div5.setAttribute("name", "subtotal");
+				div5.innerText = precioUnitario;
+				td5.appendChild(div5);
+				// td1.appendChild(hiddenInput5);
+
+				row.appendChild(td5);
+
+				return row;
+			};
 
 			var agregarProducto = function(producto, descripcion, precioUnitario, stock) {
 				carritoArray[carritoArray.length] = producto;
@@ -13,45 +136,7 @@
 				// agrego el elemento a la tabla de carrito
 				var table = document.getElementById("table-carrito");
 
-				var row = document.createElement('tr');
-				row.setAttribute("id", "item-carrito-" + producto);
-
-				var td1 = document.createElement('td');
-				td1.setAttribute("name", "producto-codigo");
-				td1.innerText = producto;
-
-				var td2 = document.createElement('td');
-				td2.setAttribute("name", "descripcion");
-				td2.innerText = descripcion;
-
-				var td3 = document.createElement('td');
-				td3.setAttribute("name", "precio-unitario");
-				td3.innerText = precioUnitario;
-
-				var td4 = document.createElement('input');
-				td4.setAttribute("type", "number");
-				td4.setAttribute("name", "cantidad");
-				td4.setAttribute("id", "input-cantidad-" + producto);
-				td4.setAttribute("min", "1");
-				td4.setAttribute("max", stock);
-				td4.setAttribute("value", "1");
-				td4.setAttribute("step", "1");
-				td4.setAttribute("onchange", "return numberInputChanged(this);");
-
-				var td5 = document.createElement('td');
-				td5.setAttribute("name", "subtotal");
-				td5.setAttribute("id", "subtotal-" + producto);
-				td5.innerText = precioUnitario;
-
-				
-
-				row.appendChild(td1);
-				row.appendChild(td2);
-				row.appendChild(td3);
-				row.appendChild(td4);
-				row.appendChild(td5);
-
-
+				var row = rowTemplate(producto, descripcion, precioUnitario, stock);
 
 				table.appendChild(row);
 
@@ -96,18 +181,24 @@
 
 				var td = input.parentElement;
 				var row = td.parentElement;
-				td = row.querySelector('td[name="subtotal"]');
+				divSubtotal = row.querySelector('span[name="subtotal"]');
 
-				var td_precio_unitario = row.querySelector('td[name="precio-unitario"]');
+				var divPrecioUnitario = row.querySelector('span[name="precio-unitario"]');
 
 				// subtotal = cantidad * precioUnitario
-				td.innerText = input.value * td_precio_unitario.innerText;
+				divSubtotal.innerText = input.value * divPrecioUnitario.innerText;
 			};
+
 		</script>
 	</head>
 	<body>
-		<h1>Bienvenido al Minimercado!</h1>
-		<a href="comprar?codigo=hola"><button>COMPRAR</button></a>
+		<div class="alerta" th:if="${param.msgalert != null}" id="msg-alert">
+			<p th:text="${param.msgalert}">mensage de alerta</p>
+		</div>
+		<div>
+			<a href="/home">HOME</a>
+			<h1>Bienvenido al Minimercado!</h1>
+		</div>
 		<br>
 
 		<!-- TABLA DE TRANSACCIONES -->
@@ -132,49 +223,50 @@
 
 		<!-- TABLA DE CATALOGO -->
 		<h2>CATÁLOGO</h2>
-		<form action="#" method="post">
-			<table>
-				<thead>
-					<tr>
-						<th>PRODUCTO</th>
-						<th>DESCRIPCION</th>
-						<th>PRECIO UNITARIO</th>
-						<th># EN STOCK</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="stock, itemStat : ${stockList}">
-						<td th:text="${stock.producto.codigo}"></td>
-						<td th:text="${stock.producto.descripcion}"></td>
-						<td th:text="${stock.producto.precioUnitario}"></td>
-						<td th:text="${stock.cantidad}"></td>
-						<td>
-							<input type="checkbox" name="'p-' + ${stock.producto.codigo}" id="'cb-' + ${stock.producto.codigo}" 
-							th:data-codigo="${stock.producto.codigo}"
-							th:data-desc="${stock.producto.descripcion}"
-							th:data-precio-unitario="${stock.producto.precioUnitario}"
-							th:data-stock="${stock.cantidad}"
-							th:onchange="checkboxChanged(this, this.getAttribute('data-codigo'), this.getAttribute('data-desc'), this.getAttribute('data-precio-unitario'), this.getAttribute('data-stock'))">
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-		<br>
-
-		<!-- CARRITO DE COMPRAS -->
-		<h2>CARRITO</h2>
 		<table>
 			<thead>
 				<tr>
 					<th>PRODUCTO</th>
 					<th>DESCRIPCION</th>
 					<th>PRECIO UNITARIO</th>
-					<th>CANTIDAD</th>
-					<th>SUBTOTAL</th>
+					<th># EN STOCK</th>
 				</tr>
 			</thead>
-			<tbody id="table-carrito"></tbody>
+			<tbody>
+				<tr th:each="stock, itemStat : ${stockList}">
+					<td th:text="${stock.producto.codigo}"></td>
+					<td th:text="${stock.producto.descripcion}"></td>
+					<td th:text="${stock.producto.precioUnitario}"></td>
+					<td th:text="${stock.cantidad}"></td>
+					<td>
+						<input type="checkbox" name="'p-' + ${stock.producto.codigo}" id="'cb-' + ${stock.producto.codigo}" 
+						th:data-codigo="${stock.producto.codigo}"
+						th:data-desc="${stock.producto.descripcion}"
+						th:data-precio-unitario="${stock.producto.precioUnitario}"
+						th:data-stock="${stock.cantidad}"
+						th:onchange="checkboxChanged(this, this.getAttribute('data-codigo'), this.getAttribute('data-desc'), this.getAttribute('data-precio-unitario'), this.getAttribute('data-stock'))">
+					</td>
+				</tr>
+			</tbody>
 		</table>
+		<br>
+
+		<!-- CARRITO DE COMPRAS -->
+		<h2>CARRITO</h2>
+		<form action="/comprar" method="post">
+			<table>
+				<thead>
+					<tr>
+						<th>Prodructo</th>
+						<th>Descripcion</th>
+						<th>Precio Unitario</th>
+						<th>Cantidad</th>
+						<th>Subtotal</th>
+					</tr>
+				</thead>
+				<tbody id="table-carrito"></tbody>
+				<input type="submit" value="Comprar">
+			</table>
+		</form>
 	</body>
 </html>

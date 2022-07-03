@@ -10,7 +10,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -20,39 +19,39 @@ import jakarta.persistence.TemporalType;
 @Table(name = "transaccion")
 public class Transaccion {
 	
-	@Temporal(TemporalType.DATE)
-	@Column(name = "fecha")
-	private Date fecha;					// fecha de la venta
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int numero;				// unico en el sistema (identifica la transaccion)
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Linea> lineas;			// Lista de Lineas 
-	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Producto producto;
+	private List<Linea> linea;			// Lista de Lineas
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "fecha")
+	private Date fecha; 				// fecha de la venta
 
 	public Transaccion() {
 		this.fecha = null;
 		this.numero = 0;
-		this.lineas = null;
-		this.producto = null;
+		this.linea = null;
 	}
 
-	public Transaccion(Date fecha, int numero, List<Linea> lineas, Producto producto) {
+	public Transaccion(Date fecha, int numero, List<Linea> lineas) {
 		this.fecha = fecha;
 		this.numero = numero;
-		this.lineas = lineas;
-		this.producto = producto;
+		this.linea = lineas;
 	}
 
-	public Transaccion(Date fecha, List<Linea> lineas, Producto producto) {
+	public Transaccion(Date fecha, List<Linea> lineas) {
 		this.fecha = fecha;
 		this.numero = 0;
-		this.lineas = lineas;
-		this.producto = producto;
+		this.linea = lineas;
+	}
+
+	public Transaccion(List<Linea> lineas) {
+		this.fecha = new Date();
+		this.linea = lineas;
+		this.numero = 0;
 	}
 
 	public Date getFecha() {
@@ -72,19 +71,11 @@ public class Transaccion {
 	}
 
 	public List<Linea> getLineas() {
-		return lineas;
+		return linea;
 	}
 
 	public void setLineas(List<Linea> lineas) {
-		this.lineas = lineas;
-	}
-
-	public Producto getProducto() {
-		return producto;
-	}
-
-	public void setProducto(Producto producto) {
-		this.producto = producto;
+		this.linea = lineas;
 	}
 
 	@Override
