@@ -42,18 +42,19 @@ public class PruebaApplication {
 		HttpServletResponse response
 	) {
 
-		List<Stock> stockList = stockService.fetchStockList();
+		try {
+			List<Stock> stockList = stockService.fetchStockList();
 
-		request.setAttribute("stockList", stockList);
+			request.setAttribute("stockList", stockList);
+		} catch (Exception e) {
+			// se muestra la pagina principal sin productos
+		}
 
 		return "homepage";
 	}
 
 	@RequestMapping(value = "/comprar")
 	public String comprar(
-		// @ModelAttribute Carrito carrito,
-		// Model model
-		// Map<String, String> params
 		HttpServletRequest request,
 		HttpServletResponse response,
 		RedirectAttributes redirectAttributes
@@ -131,17 +132,7 @@ public class PruebaApplication {
 			}
 		}
 
-		// System.out.println("#params: " + params.size());
-		System.out.println("Params: ");
-		request.getParameterMap().forEach((key, value) -> {
-			System.out.println("KEY: " + key);
-			System.out.println("VALUES:");
-			for (int i = 0; i < value.length; i++) {
-				System.out.println(value[i]);
-			}
-		});
-
-		// agrego mensaje de alerta
+		// agrego mensaje de alerta (compra procesada con exito)
 		redirectAttributes.addAttribute("msgalert", "Gracias por comprar en el Minimercado!");
 
 		return "redirect:/home";

@@ -173,17 +173,14 @@
 			var numberInputChanged = function(input) {
 				var invalue = parseInt(input.value);
 				if ((invalue < input.min) || (invalue > input.max)) {
-					console.log("min: " + input.min);
-					console.log("max: " + input.max);
-					console.log("value: " + input.value);
 					input.value = 1;
 				};
 
 				var td = input.parentElement;
 				var row = td.parentElement;
-				divSubtotal = row.querySelector('span[name="subtotal"]');
+				divSubtotal = row.querySelector('div[name="subtotal"]');
 
-				var divPrecioUnitario = row.querySelector('span[name="precio-unitario"]');
+				var divPrecioUnitario = row.querySelector('div[name="precio-unitario"]');
 
 				// subtotal = cantidad * precioUnitario
 				divSubtotal.innerText = input.value * divPrecioUnitario.innerText;
